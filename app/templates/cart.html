@@ -1,0 +1,58 @@
+<!-- product_list.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cart List</title>
+  </head>
+
+  <body>
+    <h2>Cart List</h2>
+    <hr />
+    <h3>Total : {{total}}DH - <button>
+      <a href="">Confirm Order</a>
+    </button></h3>
+    
+    {% if products|length != 0 %}
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Qte</th>
+        <th>Total</th>
+      </tr>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}DH</td>
+        <td>
+          <form
+            method="post"
+            action="{% url 'update_cart' product_id=product.id quantity=1 %}"
+          >
+            {% csrf_token %}
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value="{{ product.quantity }}"
+              min="1"
+            />
+            <button type="submit">Update</button>
+          </form>
+        </td>
+        <td>{{ product.total}} Dh</td>
+        <td></td>
+        <td>
+          <button>
+            <a href="{% url 'delete_cart' product.id %}">X</a>
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <h3>Cart is empty!!</h3>
+    {% endif %}
+    <a href="{% url 'product_list' %}">Product list</a>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!-- product_list.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Product List</title>
+</head>
+
+<body>
+    <h2>Product List</h2>
+    <a href="{% url 'home' %}">Home</a>
+    {% if request.user.is_superuser %} 
+    <a href="{% url 'add_product' %}">Add Product</a>
+    {% endif %}
+    <a href="{% url 'my_cart' %}">My Cart</a>
+    <ul>
+        {% for product in products %}
+        <li>
+            {{ product.name }} - {{ product.price }}
+             <button>
+                <a href="{% url 'add_to_cart' product.id %}">add_to_cart</a>
+            </button>
+            {% if request.user.is_superuser %} 
+            <button>
+                <a href="{% url 'update_product' product.id %}">Update</a>
+            </button>
+           
+            <button>
+                <a href="{% url 'delete_product' product.id %}">X</a>
+            </button>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    {% if request.user.username %}
+    <h1>Hello {{request.user.username}}</h1>
+    <a href="{% url 'product_list' %}"><button> Product List</button></a>
+    <a href="{% url 'my_cart' %}"><button>My Cart</button></a>
+    <a href="{% url 'logout' %}"><button> LOGOUT</button></a>
+    {% else %}
+
+    <a href="{% url 'login' %}"><button> LOGIN</button></a>
+    <a href="{% url 'signup' %}"><button> SIGNUP</button></a>
+
+    {% endif %}
+
+</body>
+
+</html>
