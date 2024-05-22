@@ -7,6 +7,7 @@ from .models import Product, CustomUser, Cart
 from .froms import ProductForm, ProductUpdateForm, CustomUserCreationForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.views import View
 
 @login_required
 def list_products(request):
@@ -24,7 +25,17 @@ def add_product(request):
         form = ProductForm()
     return render(request, 'add_product.html', {'form': form})
 
-
+@user_passes_test(lambda u: u.is_superuser)
+class addProduct(View):
+    def get(self,request):
+        form = ProductForm()
+        return render(request, 'add_product.html', {'form': form})
+    def post(self,request):
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+        
 def home(request):
     return render(request, 'home.html')
 
